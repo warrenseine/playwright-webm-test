@@ -1,0 +1,35 @@
+<html>
+  <body>
+    <div>
+        <button onclick="changeVideo('./video.webm')">WebM</button>
+        <button onclick="changeVideo('./video.mp4')">MP4</button>    
+    </div>
+
+    <video src="./video.webm" autoplay muted loop></video>
+    <canvas></canvas>
+
+    <script>
+      const video = document.getElementsByTagName("video")[0];
+      const canvas = document.getElementsByTagName("canvas")[0];
+
+      video.onloadedmetadata = () => {
+        document.body.append(canvas);
+        canvas.width = video?.videoWidth;
+        canvas.height = video?.videoHeight;
+        const context = canvas.getContext("2d");
+        console.log(video, canvas, context, video);
+
+        function onFrame() {
+          window.requestAnimationFrame(onFrame);
+          context.drawImage(video, 0, 0);
+        }
+
+        onFrame();
+      };
+
+      function changeVideo(url) {
+        video.src = url;
+      }
+    </script>
+  </body>
+</html>
